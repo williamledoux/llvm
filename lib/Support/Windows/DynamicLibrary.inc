@@ -15,6 +15,7 @@
 
 #ifdef __MINGW32__
  #include <imagehlp.h>
+ #include <dbghelp.h>
 #else
  #include <dbghelp.h>
 #endif
@@ -67,7 +68,7 @@ DynamicLibrary DynamicLibrary::getPermanentLibrary(const char *filename,
       }
     }
 
-    fEnumerateLoadedModules(GetCurrentProcess(), ELM_Callback, 0);
+    fEnumerateLoadedModules(GetCurrentProcess(), (PENUMLOADED_MODULES_CALLBACK64)ELM_Callback, 0);
     // Dummy library that represents "search all handles".
     // This is mostly to ensure that the return value still shows up as "valid".
     return DynamicLibrary(&OpenedHandles);
